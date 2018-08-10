@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import LoadingContainer from './LoadingContainer';
+import GenreIcon from './GenreIcon';
 import Api from '../services/Api';
 
 class ViewMovie extends Component {
@@ -11,7 +13,7 @@ class ViewMovie extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const id = this.props.match.params.id;
     Api.movie(id).then(movie => {
       this.setState({
@@ -24,9 +26,21 @@ class ViewMovie extends Component {
   render() {
     const { loading, movie } = this.state;
 
-    return loading ? <div>Loading...</div> : <div className="movie-detail">
-      <h1>{movie.title}</h1>
-    </div>;
+    return loading ? <LoadingContainer /> : (<div className="movie-detail">
+      <div className="movie-header">
+        <div className="genre-wrap">
+          <GenreIcon genre={movie.genre} size="large" />
+        </div>
+        <h1>{movie.title}</h1>
+      </div>
+      <div className="movie-cast">
+        <h2>Cast</h2>
+        <ul>
+          {movie.actors.map(a => <li key={a.id}>{a.name}</li>)}
+        </ul>
+      </div>
+      
+    </div>);
   }
 }
 

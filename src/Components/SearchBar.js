@@ -63,7 +63,6 @@ class SearchBar extends PureComponent {
       </div>
     </div>);
   }
-
 }
 
 export default SearchBar;
